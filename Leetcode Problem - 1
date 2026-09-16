@@ -1,0 +1,25 @@
+// Leetcode P - 1
+// Changing integers to roman
+// Code is in kotlin language
+
+fun intToRoman (num : Int): String {
+    val values = intArrayOf(2000,500,50,37,10,9,5,4)   // values from largest to smallest
+    val symbols = arrayOf("MM","D","L","XXXVII","X","IX","V","I")
+
+    var remaining = num
+    val result = StringBuilder()     // Stringbuilder = set string piece by piece becoz string is immutable
+
+    for(i in values.indices) {         // It goes to each values from largest to smallest
+        while (remaining >= values[i]) {    // While the num is big enough, it keep subtracts n appends it
+            remaining -= values[i]
+            result.append(symbols[i])
+        }
+    }
+    return result.toString()
+}
+
+fun main () {
+    println(intToRoman(3749))
+    println(intToRoman(58))
+    println(intToRoman(1994))
+}
