@@ -1,0 +1,53 @@
+// Leetcode Prob - 10
+// Rotate an n x n matrix 90° clockwise, without using any extra matrix (in-place).
+
+//The trick: This can be done in 2 simple steps:
+//Transpose the matrix (flip along the diagonal)
+//Reverse each row
+// I use both, trans will turn cols into rows
+// then after transposing we reverse row
+
+fun rotate(matrix: Array<IntArray>) {
+    val n = matrix.size
+
+    // transposing matrix ( swaps [i][j] to [j][i])
+    // Flipping matrix along its main diagonal (top-left to bottom-right)
+
+    for (i in 0 until n) {
+        for (j in i + 1 until n) {   // j starts from i + 1 not 0, becoz its avoids swapping of same pair
+            val temp = matrix[i][j]
+            matrix[i][j] = matrix[j][i]
+            matrix[j][i] = temp
+        }
+    }
+
+    // Now we reverse each row
+    // This completes 90-degree clockwise rotation
+    for (i in 0 until n ) {       // loops each row
+        var left = 0                         // left = first col, right = last col
+        var right = n-1
+
+        while ( left < right) {      // Two-pointer swap (left forward n right backward)
+            val temp = matrix[i][left]
+            matrix[i][left] = matrix[i][right]
+            matrix[i][right] = temp
+
+            left++
+            right--
+
+        }
+    }
+}
+fun main () {
+    val matrix = arrayOf(
+        intArrayOf(1,2,3),
+        intArrayOf(5,6,7),
+        intArrayOf(8,9,3)
+    )
+    rotate(matrix)
+
+    for(row in matrix){
+        println(row.joinToString(" "))
+
+    }
+}
