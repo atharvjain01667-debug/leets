@@ -1,0 +1,48 @@
+// L -5
+// Given a number n, representing n pairs of parentheses,
+// write a function to generate all possible combinations of well-formed (valid) parentheses.
+// Every opening bracket ( has a matching closing bracket )
+// backtrack is for when we make a valid combination, it do undo for making again every new combination (if it is valid or not)
+// In Kotlin
+
+fun generateParenthesis(n : Int): List<String> {
+    val result = mutableListOf<String>()  // stores all valid combinations
+
+    // helper function for backtracking
+    // 'current' = for string building
+    // 'open' = for count of (
+    // 'close' = for count of )
+
+    fun backtrack(current: StringBuilder, open: Int, close: Int) {  // current = parenthesis built so far ((
+        if (current.length == 2 * n) {    // string is compl when it reaches length 2n
+            result.add(current.toString())   // it saves this valid combination
+            return
+        }
+
+        // choice 1: add ( , if we still have open brackets left
+        if (open < n) {
+            current.append('(')  // choose (
+            backtrack(current, open + 1, close)  // goes deep
+            current.deleteCharAt(current.length - 1)  // for undo choice
+        }
+
+        // choice 2: add ( , only if don't break validity
+        // the no of ) will always be less then (
+        if (close < open) {
+            current.append(')')
+            backtrack(current, open, close + 1)
+            current.deleteCharAt(current.length - 1)
+        }
+
+    }
+    backtrack(StringBuilder(),0,0) // it starts wth empty string 0, 0 opens, 0 close
+    return result
+}
+
+fun main () {
+    val n = 3
+    val result = generateParenthesis(n)
+    println(result)
+}
+
+// main purpose of this to find all valid combinations of parenthesis ()
