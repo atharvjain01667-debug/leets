@@ -1,0 +1,29 @@
+// Leetcode P - 9
+// we start at index 0 of an array.
+// Each value nums[i] tells you the maximum number of steps you can jump forward from index i.
+// Find the minimum number of jumps needed to reach the last index.
+// SOLUTION IS IN KOTLIN LANG
+fun jump(nums: IntArray): Int {
+    var jumps = 0             // how many jumps we 've made so far
+    var currentEnd = 0
+    var farthest = 0          // farthest index if we take one more jump
+
+    for (i in 0 until nums.size-1) {  // we dont need to process till last,as we get into
+        // second last ,we auto get into last
+
+        farthest = maxOf(farthest, i + nums[i]) //  nums[i] is next num which tell us how much we have to jump
+        if (i == currentEnd) {
+            jumps++
+            currentEnd = farthest   // new reachable range becomes 'farthest'
+        }
+    }
+    return jumps
+}
+fun main () {
+    val nums = intArrayOf (2,3,1,1,3,1,2,4)
+    val result = jump(nums)
+    println(result)
+}
+
+// nums = 2,3,1,1,5,9,8
+// index = 0,1,2,3,4,5,7
