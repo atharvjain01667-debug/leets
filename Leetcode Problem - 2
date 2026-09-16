@@ -1,0 +1,26 @@
+// L - 2
+// For detecting longest common prefix
+// In kotlin
+
+class Solution {
+    fun longestCommonPrefix(strs: Array<String>): String {
+        // Start by assuming the whole first word is the common prefix
+        var prefix = strs[0]
+
+        // Compare this prefix against every other string in the array
+        for (i in 1 until strs.size) {
+            // Keep shrinking the prefix from the end
+            // until the current string actually starts with it
+            while (!strs[i].startsWith(prefix)) {
+                prefix = prefix.substring(0, prefix.length - 1)
+
+                // If prefix becomes empty, there's no common prefix at all
+                if (prefix.isEmpty()) {
+                    return ""
+                }
+            }
+        }
+
+        return prefix
+    }
+}
