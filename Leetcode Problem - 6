@@ -1,0 +1,44 @@
+// L - 6
+// Determine if a 9 x 9 Sudoku board is valid.
+// Only the filled cells need to be validated according to the following rules:
+//Each row must contain the digits 1-9 without repetition.
+//Each column must contain the digits 1-9 without repetition.
+//Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without repetition.
+// In Kotlin
+
+fun isValidSudoku(board: Array<CharArray>) :  Boolean {   // charArray = arr containing multiple char's(2D collection of char),
+
+    // crating 9 sets for rows,9 for columns, 9 for 3x3 boxes
+    val rows = Array(9) {mutableSetOf<Char>()}
+    val cols = Array(9) {mutableSetOf<Char>()}
+    val boxes = Array(9) {mutableSetOf<Char>()}
+
+    // loop for every cell in the 9x9 board
+    for (r in 0 until 9) {
+        for (c in 0 until 9) {
+            val value = board[r][c]
+
+            // skip empty cells (i check only filled one)
+            if (value == '.') continue
+
+            // for finding which box is of which cell
+            // Formula for this: (row/3) * 3 + (col/3)
+            val boxIndex = (r / 3) * 3 + (c / 3)
+
+            // now we try to add value in row , column n box set
+            // " .add " = it modifies the set, it will true if value is not in set n
+            // it will be successful or else if it is already in set it will fail
+            if (!rows[r].add(value) || !cols[c].add(value) || !boxes[boxIndex].add(value)) {
+                return false  // when found a repeated num, board is invalid
+            }
+        }
+    }
+    return true
+}
+
+fun main () {
+    val digits = "23"
+    val result = isValidSudoku(board = Array(9) { CharArray(9) { '.' } })
+    println(result)
+
+}
