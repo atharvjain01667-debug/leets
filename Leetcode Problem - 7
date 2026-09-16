@@ -1,0 +1,47 @@
+// Leetcode prob - 7
+//You have a sorted array that got "cut and swapped" at some point (rotated).
+//Find the index of a target number in it — or return -1 if it's not there.
+// Key idea: The array isn't fully sorted, but if you pick
+// the middle point, one half is always still properly sorted. So: check
+// which half is sorted → see if target fits in that half's range → search there,
+
+fun search (nums: IntArray, target: Int) : Int {
+    var left = 0               // first index position is always 0
+    var right  = nums.size - 1   // last index always size - 1
+
+    // binary loop ,to handle rotation in arr
+    while (left <= right) {
+        val mid = (left + right) / 2
+
+        // found target correctly
+        if (nums[mid] == target) {
+            return mid
+        }
+
+        // step 1: we figure out which half is properly sorted
+        // if left half is sorted
+        if (nums[left] <= nums[mid]) {
+            if (target >= nums[left] && target < nums[mid]) {  // if target lies in left part
+                right = mid - 1    // target is in left half, search there
+            } else {
+                left = mid + 1    // target is not in left half,search in right part
+            }
+
+        } else {
+            // if it is in right part
+
+            if (target > nums[mid] && target <= nums[right]) {
+                left = mid + 1   // target is in right part
+            } else {
+                right = mid - 1  // target is not in right part, it is in left part
+            }
+        }
+    }
+    return -1   // if we exit the loop target will not be found
+}
+
+fun main () {
+    val nums = intArrayOf(4,5,6,7,0,1,2)
+    val result = search(nums, 1 )  // target is 1
+    println(result)
+}
