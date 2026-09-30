@@ -1,0 +1,56 @@
+//You have a grid of numbers. Start at the top-left and walk around the grid in a spiral (clockwise),
+// going inward, and collect every number in the order you visit it.
+// a matrix table ,where it starts from first n goes in spiral form , to collect every element
+
+fun spiralOrder(matrix: Array<IntArray>): List<Int> {
+    val result = mutableListOf<Int> ()
+
+    // the 4 boundaries of the area
+    var top = 0
+    var bottom = matrix.size - 1  // last row index
+    var left = 0
+    var right = matrix[0].size - 1   // last column index
+
+    while (top <= bottom && left <= right) {
+        for (j in left..right) {    // goes from left to right on top row
+            result.add(matrix[top][j])
+        }
+        top++
+
+        for ( i in top..bottom) {   // go to top to bottom along right col
+            result.add(matrix[i][right])
+        }
+        right--   // right col is finished,move to left
+
+        // now it goes to right to left along bottom row
+        // check first if still any row left
+        if (top <= bottom) {
+            for (j in right downTo left) {
+                result.add(matrix[bottom][j])
+            }
+            bottom--
+        }
+
+        if (left <= right) {
+            for (i in bottom downTo top) {
+                result.add(matrix[i][left])
+            }
+            left++
+        }
+    }
+    return result
+}
+
+fun main(args: Array<String>) {
+    val matrix = arrayOf(
+        intArrayOf(1,2,3,4),
+        intArrayOf(5,6,7,8),
+        intArrayOf(9,10,11,12),
+        intArrayOf(13,14,15,16),
+    )
+
+    val result = spiralOrder(matrix)
+    println("Spiral Order: ")
+    println(result)
+
+}
