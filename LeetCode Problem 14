@@ -1,0 +1,44 @@
+// L - 14
+fun sortColours(nums: IntArray) {
+    var low = 0                  // everything before low is 0
+    var mid = 0                  // current element
+    var high = nums.size - 1    // everything before high is 2
+
+    while (mid <= high) {         // keep going until mid passed high
+        when (nums[mid]) {
+            0 -> {
+                // it is 0, belongs to front
+                // swap with low position
+                val temp = nums[low]
+                nums[low] = nums[mid]
+                nums[mid] = temp
+
+                low++      // value now at mid (which is came from low is safe (0 or 1)
+                mid++      // so we move both pointers forward
+            }
+            1 -> {
+                // it is 1, already in correct middle zone
+                // just moved forward, nothing to swap
+                mid++
+            }
+            2 -> {
+                // it is 2, belongs at end
+                // swap it with high position
+                val temp = nums[high]
+                nums[high] = nums[mid]
+                nums[mid] = temp
+
+                // value now at mid (which is came from high) is UNKNOWN
+                // so we check it again -> dont move
+                high--
+
+            }
+        }
+    }
+}
+
+fun main() {
+    val nums = intArrayOf(2,2,0,1,2,1,1,0,2,1,0)
+    sortColours(nums)
+    println(nums.joinToString(prefix = "[", postfix = "]"))
+}
