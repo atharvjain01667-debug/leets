@@ -1,0 +1,43 @@
+// An interval is a range like [1,3], meaning "from 1 to 3".
+// If two ranges overlap (share any point),
+// we combine them into one bigger range. we
+// need to keep merging until no overlaps are left, then return what remains.
+
+fun merge (intervals: Array<IntArray>): Array<IntArray> {
+    // step 1: sort intervals by their start value so overlapping end up
+    // to each other
+    intervals.sortBy { it[0]}
+
+    val result = mutableListOf<IntArray>()  // for holding merge intervals
+    result.add(intervals[0])  // putting first intervals in result
+
+    // It go through remaining intervals one by one
+    for (i in 1 until intervals.size) {
+        val current = intervals[i]
+        val last = result[result.size - 1]
+
+        if (current[0] <= last[1]) {
+            // Overlaps current starts with last starts
+            // it extends the end of last, using max so it not shrink
+            last[1] = maxOf(last[1], current[1])
+//Why max? Sometimes the next interval is fully inside the last one,
+        // like [1,10] and [2,5]. The end must stay 10, not shrink to 5. Taking the larger end handles this.
+
+        } else {
+            result.add(current)
+        }
+    }
+    return result.toTypedArray()    // It converts list back to an Array<IntArray> and return it
+}
+
+fun main(args: Array<String>) {
+    val intervals = arrayOf(
+        intArrayOf(4, 7),
+        intArrayOf(1, 4),
+    )
+    val mergedIntervals = merge(intervals)
+    println("mergedIntervals: ")
+    for (interval in mergedIntervals) {
+        println(interval.joinToString(prefix = "[", postfix = "]"))
+    }
+}
