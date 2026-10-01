@@ -24,25 +24,25 @@
 
 ## 🗂️ Problem Solutions Index
 
-Below is the directory of implemented solutions available in this repository:
-
 | # | Problem Title | Difficulty | Solution File | Tag/Category |
 | :-: | :--- | :-: | :-: | :--- |
-| 1 | Two Sum / Basic Problem | 🟢 Easy | [Solution](./Leetcode%20Problem%20-%201) | Arrays / Hash Table |
+| 1 | Two Sum | 🟢 Easy | [Solution](./Leetcode%20Problem%20-%201) | Arrays / Hash Table |
 | 2 | Longest Substring Without Repeating Characters | 🟡 Medium | [Solution](./Leetcode%20Problem%20-%202) | Sliding Window |
 | 3 | Letter Combinations of a Phone Number | 🟡 Medium | [Solution](./Leetcode%20Problem%20-%203) | Backtracking |
-| 5 | Longest Palindromic Substring | 🟡 Medium | [Solution](./Leetcode%20Problem%20-%205) | Dynamic Programming |
-| 6 | Valid Sudoku | 🟡 Medium | [Solution](./Leetcode%20Problem%20-%206) | Matrix / Validation |
-| 7 | Search Target in Rotated Array | 🟡 Medium | [Solution](./Leetcode%20Problem%20-%207) | Binary Search |
+| 5 | Valid Parentheses / String Analysis | 🟢 Easy | [Solution](./Leetcode%20Problem%20-%205) | Stack / Strings |
+| 6 | Valid Sudoku | 🟡 Medium | [Solution](./Leetcode%20Problem%20-%206) | Matrix / Hash Set |
+| 7 | Search Target in Rotated Sorted Array | 🟡 Medium | [Solution](./Leetcode%20Problem%20-%207) | Binary Search |
 | 9 | Jumping Numbers | 🟡 Medium | [Solution](./Leetcode%20Problem%20-%209) | BFS / Graph |
 | 10 | Matrix Rotation Function | 🔴 Hard | [Solution](./Leetcode%20Problem%20-%2010) | Matrix / Math |
+| 12 | Spiral Matrix | 🟡 Medium | [Solution](./LeetCode%20Problem%20-%2012) | Matrix / Simulation |
+| 13 | Merge Intervals | 🟡 Medium | [Solution](./LeetCode%20Problem%20-%2013) | Sorting / Arrays |
 | 14 | Sort Colors (Dutch National Flag) | 🟡 Medium | [Solution](./LeetCode%20Problem%2014) | Two Pointers |
+| 15 | Group Anagrams | 🟡 Medium | [Solution](./LeetCode%20Problem%20-%2015) | Hash Table / Strings |
+| 16 | Minimum Operations to Reduce X / Array Operations | 🟡 Medium | [Solution](./LeetCode%20Problem%20-%2016) | Two Pointers / Prefix |
 
 ---
 
 ## 🚀 How to Run Locally
-
-Clone the repository and run any problem directly using Kotlin/Java:
 
 ```bash
 # Clone the repository
