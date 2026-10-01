@@ -1,0 +1,29 @@
+// Two words are anagrams if they contain exactly the same letters,
+// just arranged in a different order.
+
+fun groupAnagrams(strs: Array<String>): List<List<String>> {
+
+    val map = HashMap<String, MutableList<String>>()  // hashmap = sort letters of word, value = list of org word
+    for (word in strs) {      // it will go through each word
+
+        // we sort the letters of word in 'Signature'
+        // toCharArray() -> turns "eat" into ['e','a','t']
+        // .sorted() -> sort them -> ['a','e','t']
+        //.joinToString -> turns it again into aet
+        val key = word.toCharArray().sorted().joinToString("")
+
+        // if key doesnt exist in map, create an empty list for it
+        // getOrPut = get the list for this key, or PUT a new empty list if missing
+        map.getOrPut(key) { mutableListOf() }.add(word)
+    }
+
+    return map.values.toList()
+}
+fun main(args: Array<String>) {
+    val strs = arrayOf("eat","tea","act","aet","tan","nat","atn","tat","cat","tac")
+    val result = groupAnagrams(strs)
+
+    for (group in result) {
+        println(group)
+    }
+}
