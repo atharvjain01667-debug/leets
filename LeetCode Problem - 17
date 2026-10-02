@@ -1,0 +1,40 @@
+// You have a string of digits,
+// and each letter A-Z was encoded as a number 1-26.
+// Given the encoded digit string, count how many different ways it could be decoded back into letters.
+//The tricky part: Some digits can be grouped as one number OR two separate numbers:
+
+fun numDecodings(s: String): Int {
+    val n = s.length
+
+    //dp[i] = no of ways to decode the first i chars of s
+    val dp = IntArray(n+1)
+    dp[0]=1    // base case = empty string, has exactly 1 way to decode
+
+    // Base case = first char alone
+    // valid only if didnt contain 0
+    dp[1] = if (s[0] != '0') 1 else 0
+
+    // fill rest of table from i = 2 to n
+    for (i in 2..n) {
+
+        //opt1 = treat last single digit as its own letter
+        //s[i-1] is current last char
+        val oneDigit = s[i-1].toString().toInt()
+        if(oneDigit in 1..9) {
+            dp[i] += dp[i-1]        // add how many ways existed
+        }
+
+        //opt2 = treat last 2 digits together as 1 letter
+        // s.substring (i-2, i) grabs chars at pos i-2 n i-1
+        val twoDigits = s.substring(i-2,i).toInt()
+        if (twoDigits in 10..26 ) {
+            dp[i] += dp[i-2]       // add how many ways existed
+        }
+    }
+    return dp[n]
+}
+
+fun main () {
+    println(numDecodings("1221"))
+
+}
