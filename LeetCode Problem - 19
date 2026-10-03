@@ -1,0 +1,34 @@
+// We're robbing houses along a street,
+// where each house has some amount of money.
+// The only rule: you can't rob two adjacent houses (robbing houses right next to each other triggers the alarm).
+// Find the maximum total money you can rob.
+
+fun rob(nums: IntArray): Int {
+    val n = nums.size
+
+    //edge case = only one house, rob it
+    if (n == 1) return nums[0]
+
+    //dp[i] = max money ,robbers considering house 0..1
+    val dp = IntArray(n)
+
+    // base case  = only 1 house so far, rob it
+    dp[0] = nums[0]
+
+    //Base case = 2 house are adjacent, so we rob which has more money
+    dp[1] = maxOf(nums[0], nums[1])
+
+    // fill the rest of table from house 2 onwards
+    for (i in 2 until n) {
+
+        // opt1 = skip this houbse -> best stays at same as dp[1-1]
+        // opt2 = rob this house -> nums[i] + best from 2 houses back (dp[i-2])
+        dp[i] = maxOf(dp[i-1], nums[i] + dp[i-2])
+    }
+    return dp[n-1]   // last entry
+}
+
+fun main () {
+    println(rob(nums = intArrayOf(1,2,3,1)))
+
+}
