@@ -1,0 +1,31 @@
+// We have coins of certain values (we can use unlimited of each),
+// and we need to make up a target amount.
+// Find the minimum number of coins needed — or -1 if it's impossible.
+
+fun coinChange (coins: IntArray, amount: Int): Int {
+
+    //dp[i] = min coins need to make amount i
+    // initialize every value to "amount + 1" -> acts as safe "Impossible" mark
+    val dp = IntArray(amount + 1) { amount + 1 }
+
+    // base case = 0 coins need to make amount 0
+    dp[0] = 0
+    // building table from 1 to targeted amount
+    for(i in 1..amount) {
+
+        // trying every coin as last coin for amount
+        for (coin in coins) {
+            // Only usable when coin value isn't greater then amount itself
+            if (coin <= i) {
+                // Compare: current best for dp[i] vs (1+ best for remaining amount)
+                dp[i] = minOf(dp[i], 1 + dp[i - coin] )
+            }
+        }
+    }
+    // if amount is greater then targeted amount so it print -1, otherwise if matches it print
+    return if (dp[amount] > amount) -1 else dp[amount]
+}
+
+fun main () {
+    println(coinChange(intArrayOf(1,2,5),11))
+}
