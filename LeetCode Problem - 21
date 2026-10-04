@@ -1,0 +1,42 @@
+// Two players take turns picking numbers from either end of an array (left end or right end),
+// and keep whatever they pick as points.
+// Player 1 goes first. Both players play as smart as possible (optimally) — meaning each tries to maximize their own score
+// (which also means minimizing how much the opponent can get).
+// A tie counts as Player 1 winning.
+fun predictTheWinner(nums: IntArray): Boolean {
+    val n = nums.size
+
+    //dp[i][j] = best score diff (Current player - score)
+    // when only [i..j] remain
+    val dp = Array(n) { IntArray(n) }
+
+    // base case  = only 1 number left (i == j)
+    // the current player takes it
+    for (i in 0 until n) {
+        dp[i][i] = nums[i]
+    }
+
+    // we use subarrays of increasing length, in which small ranges solved first
+    for (length in 2..n){
+        for (i in 0..n - length) {
+            val j = i + length  - 1 //  end index
+
+            // opt1 = take left number (nums[i]),
+            // range becomes [i+1, j], now its opponent's turn
+            val takeLeft = nums[i] - dp[i+1][j]
+
+            // opt2 = take right number (nums[j])
+            val takeRight = nums[j] - dp[i][j-1]
+
+            // Pick whatever choice give BIG advantage
+            dp[i][j] = maxOf(takeLeft, takeRight)
+        }
+    }
+    // If it is 0 or Positive, player1 wins (if it is tie also)
+    return dp[0][n-1] >= 0
+}
+
+fun main () {
+    println(predictTheWinner(intArrayOf(1,5,2)))
+    println(predictTheWinner(intArrayOf(1,6,233,7)))
+}
