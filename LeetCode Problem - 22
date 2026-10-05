@@ -1,0 +1,57 @@
+// We're shopping for n different items. You know:
+//price[i] = the regular price of item i
+//needs[i] = exactly how many of item i you must buy
+//special = a list of "combo deals" — each offer gives you a bundle of specific items at a discounted total price
+//We want to find the cheapest way to buy exactly the items in needs — using special offers (as many times as you like) combined with regular prices for anything leftover.
+//Important restriction: We can't buy MORE of an item than you need,
+
+fun shoppingOffers(price: List<Int>, special: List<List<Int>>, needs: List<Int>): Int {
+    val n = price.size
+
+    // base case = cost of items at regular price
+    var regularCost = 0
+    for (i in 0 until n) {
+        regularCost += price[i] * needs[i]
+    }
+
+    // this will hold our best (lowest) total cost so far
+    var minCost = regularCost
+
+    //try special offer
+    for(offer in special) {
+
+        // checking: we use this offer without overbuying any items??
+        var canUseOffer = true
+        // newNeeds will hold what's still needed after applying this offer
+        val newNeeds = MutableList(n) { 0 }
+        for (i in 0 until n) {
+            // it subtracts in offer how many items provide from the needs
+            newNeeds[i] = needs[i] - offer[i]
+
+            // If offer gives more items then need
+            if (newNeeds[i] < 0) {
+                canUseOffer = false
+            }
+        }
+
+        // Only proceeds if this offer fit with needs
+        if (canUseOffer) {
+            // offer's price is stored in LAST position in offer array ,
+            // n in first 2 positions there will be prices of A n B resp
+            val offerPrice = offer[n]
+
+            // Recursively solve small problems
+            // What's still needed after offer
+            val costWithThisOffer = offerPrice + shoppingOffers(price, special, newNeeds)
+            minCost = minOf(minCost, costWithThisOffer)
+        }
+    }
+    return minCost
+}
+
+fun main () {
+    val price1 = listOf(2, 5)
+    val special1 = listOf(listOf(3, 0, 5), listOf(1, 2, 10))
+    val needs1 = listOf(3, 2)
+    println(shoppingOffers(price1, special1, needs1))
+}
