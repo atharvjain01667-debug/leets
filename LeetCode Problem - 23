@@ -1,0 +1,35 @@
+// We have a string s, and a dictionary of valid words.
+// We need to check: can you cut up s into pieces, where every single piece is a valid word from the dictionary?
+// You can reuse words as many times as needed.
+
+fun wordBreak(s: String, wordDict: List<String>): Boolean {
+    val n = s.length
+
+    // Convert wordDict to a set for Fast lookup
+    val wordSet = wordDict.toSet()
+
+    // dp[i] = true if s.substring(0, i) can be broken into dictionary words
+    val dp = BooleanArray(n + 1)
+
+    // base case = empty string (0 char) is "breakable"
+    dp[0] = true
+
+    // fill in table from position 1 to n
+    for (i in 1..n) {
+        // try to cut every letter from 0 to i-1
+        for (j in 0 until i) {
+
+            // check: was everything upto j is breakable
+            // AND is the piece from j to i is a valid dictionary word
+            if (dp[j] && wordSet.contains(s.substring(j, i))) {
+                dp[i] = true
+                break
+            }
+        }
+    }
+    return dp[n]
+}
+fun main () {
+    println(wordBreak("leetcode", listOf("leet", "code")))
+    println(wordBreak("catsandog", listOf("cats","dog","sand","and","cat")))
+}
