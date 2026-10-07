@@ -1,0 +1,37 @@
+// We pick a number from the array, delete it,
+// and earn points equal to its value.
+// But there's a catch: whenever you delete a number x,
+// you must also delete every occurrence of x-1 and x+1 from the array (you don't earn points for those — they're just removed).
+//You want to pick numbers in a smart order to maximize your total points.
+
+fun deleteNEarn (nums: IntArray): Int {
+
+    // find maximum value in nums, so we know how big our "Points"
+    val maxVal = nums.max() !!
+
+    // [v] will hold that a number appears how many times
+    // this represents "total points earned if we take All copies of value v"
+    val points = IntArray(maxVal + 1)
+
+    // fill in the points array by going through nums once
+    for (num in nums) {
+        points[num] += num
+    }
+
+    // adjacent array indices -> cant take both means there is 3, so i cant choose 2 or 4 (becoz they r adjacent to 3)
+    var prev2 = 0
+    var prev1 = 0
+
+    for(i in 0..maxVal) {
+        // skip this value (prev1) or take this(points[i] + prev2)
+        val current = maxOf(prev1, points[i] + prev2)
+
+        prev2 = prev1
+        prev1 = current
+    }
+    return prev1
+}
+
+fun main () {
+    println(deleteNEarn(intArrayOf(3,4,2)))
+}
