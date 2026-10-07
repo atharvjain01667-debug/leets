@@ -1,0 +1,38 @@
+fun robII(nums: IntArray): Int {
+    val n = nums.size
+
+    // edge case : only 1 house, no adjacency conflict possible, just rob it
+    if (n ==1 ) return nums [0]
+
+    // case 1: excludee last house -> consider indices 0 to n-2
+    val case1 = robLinear(nums, 0 , n-2)
+
+    // case2: exclude the first house -> consider indices 1 to n-1
+    val case2 = robLinear (nums,1, n-1)
+
+    // take whichever gives more money
+    return maxOf(case1, case2)
+}
+
+// this is just the ORIGINAL house robber logic,
+// but working on subrange [star ,End] of nums instead of whole array
+private fun robLinear(nums: IntArray, start: Int, end: Int): Int {
+    // if range is empty or invalid
+    if (start > end ) return 0
+
+    var prev2 = 0        // represents dp[i-2] as we go (start with 0 house)
+    var prev1 = 0        // represents dp[i-1] ass we go
+
+    for ( i in start..end) {
+        val current = maxOf(prev1, nums[i] + prev2)
+
+        // shift window for next iteration
+        prev2 = prev1
+        prev1 = current
+    }
+    return prev1
+}
+
+fun main () {
+    println(rob(intArrayOf(7,9,1)))
+}
