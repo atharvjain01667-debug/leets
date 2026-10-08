@@ -1,0 +1,50 @@
+// We rotate every digit of the number by 180°, and check two things:
+//1.Every digit must rotate into a VALID digit (not become garbage)
+//2.The resulting number must be DIFFERENT from the original
+
+fun rotatedDigits(n: Int): Int {
+
+    // we map each digits to what it makes after rotating
+    // 3,4,7 are intentionally out becoz they become invalid after rotating
+    val rotationMap = mapOf(
+        '0' to '0',
+        '1' to '1',
+        '2' to '5',
+        '5' to '2',
+        '6' to '9',
+        '8' to '8',
+        '9' to '6'
+    )
+    var count = 0 // count how many good nums we find
+
+    // check every num from 1 to n
+    for (num in 1..n) {
+        val digits = num.toString()    // convert num to string
+        var isValid = true
+        val rotated = StringBuilder()         // will build the rotated version of this number
+
+        // check each digit one by one
+        for (ch in digits) {
+            if (!rotationMap.containsKey(ch)) {
+                // this digit  (3,4,7) has no valid rotation
+                isValid = false
+                break
+            }
+            // append the rotated version of this digit
+            rotated.append(rotationMap[ch])
+        }
+
+        // only count digits if -
+        // 1. every digit rotated validly
+        // 2. the rotated digit is DIFFERENT from original
+        if (isValid && rotated.toString() != digits) {
+            count++
+        }
+    }
+    return count
+}
+
+fun main () {
+    println(rotatedDigits(10))
+    println(rotatedDigits(36))
+}
