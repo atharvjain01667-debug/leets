@@ -1,0 +1,38 @@
+fun getMoneyAmount(n: Int): Int {
+
+    // dp[i][j] = minimum money needed to guarantee a win
+    // when secret num is somewhere in the range [i][j]
+    // size id n+2, so that dp[k+1][j] n dp[i][k-1] never go out of bounds
+    val dp = Array(n+2) { IntArray(n+2) }
+
+    // base case: range with 0 or 1 number cost 0
+    // so we dont need to fill anything
+
+    // fill by range LENGTH, small ranges first
+    for(length in 2..n) {
+        for(i in 1..n -length + 1) {
+            val j = i + length - 1
+
+             // Start with big number, so any costs beats it
+            var best = Int.MAX_VALUE
+
+            // try every possible ways of first guess k inside[i][j]
+            for(k in i..j){
+
+                // if k is wrong, we pay k
+                //then number on left is [i,k-1] n in right is [k+1, j]
+                // the friend will pick expensive side, so we take max
+                val cost = k + maxOf(dp[i][k-1], dp[k+1][j] )
+
+                // we pick the cheapest guess
+                best = minOf(best,cost)
+            }
+            dp[i][j] = best
+        }
+    }
+    return dp[1][n]
+}
+
+fun main () {
+    println(getMoneyAmount(5))
+}
