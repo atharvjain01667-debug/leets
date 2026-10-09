@@ -1,0 +1,44 @@
+// This is Champagne Tower. It looks like a physics problem, but it's really a simple simulation. 😊
+//
+//What is the problem asking?
+//
+//Glasses are stacked in a pyramid:
+//
+//Row 0:        O
+//Row 1:       O O
+//Row 2:      O O O
+//Row 3:     O O O O
+
+//Each glass holds 1 cup. You pour champagne into the top glass. When a glass holds more than 1 cup, the extra spills equally to the two glasses below it (left and right). You need to find how full a particular glass is (maximum 1, since it can't hold more).
+
+fun champagneTower(poured: Int, query_row: Int, query_glass: Int): Double {
+
+    // tower[r][c] = champagne that flows into glass (r,c)
+    // (size is query_row + 2 so that "row+1" and "col+1" never go out of bounds)
+    val tower = Array(query_row + 2) { DoubleArray(query_row+2) }
+
+    // pour everything into top glass
+    tower[0][0] = poured.toDouble()
+
+    // Go row by row, from top down to row we asked for
+    for (r in 0..query_row) {
+        for (c in 0..r) {
+
+            // only glasses holding more than 1 cup have excess to spill
+            if (tower[r][c] > 1.0) {
+                val excess = tower[r][c] - 1.0      // wht glass can't hold
+                val half = excess / 2.0            // split equally to two glasses below
+
+                tower[r+1][c] += half            // left cup
+                tower[r+1][c+1] += half          // right cup
+
+                tower[r][c] = 1.0   // glasses keep exact 1 cup
+            }
+        }
+    }
+    // a glass can never hold more then 1 cup
+    return minOf(1.0, tower[query_row][query_glass])
+}
+fun main () {
+    println(champagneTower(3, 4, 5))
+}
